@@ -348,7 +348,7 @@ namespace Demo.Controllers
             if (err != null)
             {
                 ModelState.AddModelError("Photo", err);
-            }
+            }sssss
 
             if (ModelState.IsValid)
             {
