@@ -1,0 +1,54 @@
+﻿
+@model IEnumerable<Property>
+@using PagedList
+@using PagedList.Mvc
+@*@{ ViewBag.Title = "Property Record";
+    var po = PagedListRenderOptions.ClassicPlusFirstAndLast;
+    po.LinkToFirstPageFormat = "First";
+    po.LinkToLastPageFormat = "Last";
+    po.LinkToPreviousPageFormat = "Previous";
+    po.LinkToNextPageFormat = "Next";
+    // TODO: AJAX option
+    var ao = new AjaxOptions
+    {
+        @HttpMethod = "get",
+        @UpdateTargetId = "target",
+        @LoadingElementId = "loader",
+        @OnSuccess = "highlight"
+    }; }*@
+
+
+
+<table class="table">
+    <tr>
+        <th>AdTitle</th>
+        <th>PropDescription</th>
+        <th>Location</th>
+        <th>Price</th>
+        <th>Furnishing</th>
+        <th></th>
+
+
+    </tr>
+    @foreach (Property m in Model)
+    {
+<tr>
+    <td>@m.AdTitle</td>
+    <td>@m.PropDescription</td>
+    <td>@m.Location</td>
+    <td>@m.Price</td>
+
+    <td>@m.Furnishings</td>
+
+    <td style="position: relative">
+
+        <button data-post="/Account/Delete/@m.Id">Reject Post</button>
+        @* TODO *@
+        @*<button data-post="/Account/Delete?username=@m.Username" style="width:80px">Delete</button>*@
+        <img class="img3" src="~/Photo/@m.PropImage">
+    </td>
+
+
+</tr>
+    }
+</table>

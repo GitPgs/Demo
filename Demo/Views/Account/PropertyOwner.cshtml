@@ -1,0 +1,89 @@
+﻿@*@model PropertyVM
+
+@{
+    ViewBag.Title = "";
+}
+@section head {
+    <style>
+
+
+        /* Create two columns/boxes that floats next to each other */
+        .me {
+            float: left;
+            width: 30%;
+            height: 300px; /* only for demonstration, should be removed */
+            background: #ccc;
+            padding: 20px;
+        }
+
+            /* Style the list inside the menu */
+            .me .menuitem {
+                list-style-type: none;
+                padding: 0;
+            }
+
+        .pro {
+            float: left;
+            padding: 20px;
+            width: 70%;
+            background-color: #f1f1f1;
+            height: 300px; /* only for demonstration, should be removed */
+        }
+
+        /* Clear floats after the columns */
+        section::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .item {
+            padding: 8px;
+            margin-top: 7px;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .bu {
+            display: flex;
+            justify-content: flex-end;
+        }
+    </style>
+
+}
+
+
+
+<section>
+
+    <div class="me">
+        <div class="item">Post Ad</div>
+        <div class="item">1. Basic Information</div>
+        <div class="item">2. Property Details</div>
+        <div class="item">3. Ad Successfully Submitted</div>
+    </div>
+
+    <div class="pro">
+        <label for="cars">Select a category</label>
+        <br>
+
+        @Html.LabelFor(m => m.Category)
+        @Html.DropDownList("Category", new List<SelectListItem>
+    {
+          new SelectListItem { Text = "Condominium", Value = "Condominium", Selected=true},
+          new SelectListItem { Text = "Apartment", Value = "Apartment"},
+          new SelectListItem { Text = "Terrace", Value = "Terrace"}
+    }, "Select Category")
+
+        <br><br>
+        <p>You are posting as:</p>
+
+        Owner
+        @Html.RadioButtonFor(m => m.Role, "Owner")
+        Agent
+        @Html.RadioButtonFor(m => m.Role, "Agent")
+        <div class="bu">
+            <button><a href="~/Account/PropertyOwner2">Continue</a></button>
+        </div>
+    </div>
+
+</section>*@

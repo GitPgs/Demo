@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Property>
+@using PagedList
+@using PagedList.Mvc
+@{ ViewBag.Title = "";
+    var po = PagedListRenderOptions.ClassicPlusFirstAndLast;
+    po.LinkToFirstPageFormat = "First";
+    po.LinkToLastPageFormat = "Last";
+    po.LinkToPreviousPageFormat = "Previous";
+    po.LinkToNextPageFormat = "Next";
+    // TODO: AJAX option
+    var ao = new AjaxOptions
+    {
+        @HttpMethod = "get",
+        @UpdateTargetId = "target",
+        @LoadingElementId = "loader",
+        @OnSuccess = "highlight"
+    }; }
+
+
+
+<table class="table">
+    <tr>
+        <th>Property Image</th>
+        <th>AdTitle</th>
+        <th>Price(RM)</th>
+        <th>Location</th>
+        <th>Property Size(sq.ft)</th>
+        <th>Floor Range</th>
+        <th>Bedroom</th>
+        <th>Bathroom</th>
+        <th></th>
+    </tr>
+
+    @foreach (var m in Model)
+    {
+<tr>
+
+    <td>
+        <div class="im"><img src="~/Photo/@m.PropImage" style="width:150px;height:150px;"> </div>
+    </td>
+
+    <td>@m.AdTitle</td>
+    <td>@m.Price</td>
+    <td>@m.Location</td>
+    <td>@m.PropSize</td>
+    <td>@m.FloorRange</td>
+    <td>@m.Bedroom</td>
+    <td>@m.Bathroom</td>
+
+
+
+    @*@m.AdTitle
+        <br>
+        RM @m.Price
+        <br>
+        @m.Location
+        <br>
+        @m.PropSize sq.ft &nbsp;&nbsp;&nbsp;
+        @m.FloorRange th
+        <br>
+        🛌 @m.Bedroom
+        🛀 @m.Bathroom &nbsp;&nbsp;&nbsp;*@
+    @*@m.Furnishings &nbsp;&nbsp;&nbsp;
+        @m.Facilities &nbsp;&nbsp;&nbsp;
+        @m.Conveniences<br>*@
+
+<td>
+    <button class="viewDe" data-get="/Account/Property2/@m.Id">View Details</button><br />
+
+    @if (User.IsInRole("Owner"))
+    {
+<button data-post="/Account/Delete/@m.Id">Delete</button><br />
+                    <button data-get="/Account/UpdateProperty/@m.Id">Update</button><br />}
+    @if (User.IsInRole("Admin"))
+    {
+        if (m.Status == "pending")
+        {
+            <button data-post="/Account/Delete/@m.Id">Reject Post</button>
+                                    <button data-post="/Account/Accept/@m.Id">Accept Post</button>
+                                }
+
+
+                            }
+</td>
+    </tr>}
+
+
+</table>@*@Html.PagedListPager(
+        Model,
+        p => $"?page={p}",
+        PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(po, ao)
+    )*@

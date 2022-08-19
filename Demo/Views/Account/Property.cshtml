@@ -1,0 +1,234 @@
+﻿@model  IEnumerable<Property>
+@using PagedList
+@using PagedList.Mvc
+
+@{ ViewBag.Title = "";  @*var po = PagedListRenderOptions.ClassicPlusFirstAndLast;
+        po.LinkToFirstPageFormat = "First";
+        po.LinkToLastPageFormat = "Last";
+        po.LinkToPreviousPageFormat = "Previous";
+        po.LinkToNextPageFormat = "Next";
+        // TODO: AJAX option
+
+*@ var ao = new AjaxOptions
+{
+    @HttpMethod = "get",
+    @UpdateTargetId = "target",
+    @LoadingElementId = "loader",
+    @OnSuccess = "highlight"
+}; }
+
+@*@Html.PagedListPager(
+        Model,
+        p => $"?page={p}",
+        PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(po, ao)
+    )*@
+
+
+@section head {
+    <style>
+
+
+        form {
+            display: flex;
+            justify-content: center;
+            height: 200px;
+            flex-direction: column;
+        }
+
+        input {
+            width: 380px;
+            height: 40px;
+        }
+
+        button {
+            margin-left: 10px;
+        }
+
+        .distinct {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .option {
+            justify-content: center;
+        }
+
+        .search, .option1, .option2, .option3 {
+            display: flex;
+            justify-content: center;
+        }
+
+        #target {
+            overflow-y: scroll;
+        }
+
+        .table {
+            display: flex;
+            justify-content: center;
+            height: 380px;
+            width:90%;
+        }
+
+            .table button {
+                margin-top: 20px;
+                display: inline-block;
+                padding: 5px 8px;
+                font-size: 20px;
+                cursor: pointer;
+                text-align: center;
+                text-decoration: none;
+                outline: none;
+                color: #fff;
+                background-color: #000;
+                border: none;
+                width: 100px;
+                margin-left: 40px;
+            }
+
+                .table button:hover {
+                    background-color: #0009;
+                }
+
+    </style>
+}
+@*<p>
+        @Model.Count of @Model.TotalItemCount record(s) |
+        Page @Model.PageNumber of @Model.PageCount
+
+        <img src="~/Images/loader.gif" id="loader" style="display:none">
+    </p>*@
+
+<!-- TODO: AJAX form -->
+@using (Ajax.BeginForm(ao))
+{
+<div class="search">
+    @Html.TextBox("name", null, new { autofocus = "", placeholder = "Search Property", type = "search", autocomplete = "off"})
+
+
+
+    
+    @Html.DropDownList("OrderBy", new List<SelectListItem>
+{             new SelectListItem { Text = "Select item to OrderBy", Value = "",Selected=true},
+              new SelectListItem { Text = "Bathroom", Value = "Bath"},
+              new SelectListItem { Text = "Bedroom", Value = "Bed"},
+              new SelectListItem { Text = "PropSize", Value ="Prop"},
+              new SelectListItem { Text = "Price", Value ="Price"}
+
+        })
+    @Html.Label("OrderBy")
+    @Html.DropDownList("ad", new List<SelectListItem>
+{             new SelectListItem { Text = "(ASC/DESC)", Value = "",Selected=true},
+                  new SelectListItem { Text = "Ascending🔼", Value = "asc"},
+                  new SelectListItem { Text = "Descending🔽", Value = "dsc"}
+
+
+            })
+
+
+    @*<label class="box">
+
+            @Html.RadioButton("ad", "asc", true, new { @class = "radio", style="display:none;" })
+
+                </label>
+        <label class="box">
+
+            @Html.RadioButton("ad", "dsc", false, new { @class = "radio", style = "display:none;" })
+        </label>*@
+
+
+
+
+
+    <button id="btn" type="submit">Search</button>
+</div>}
+
+
+<!-- TODO: Wrap content -->
+<div id="target">
+    @Html.Partial("_A")
+
+
+
+</div>
+<br />
+<!-- TODO: JavaScript -->
+@section foot {
+    <script>let timer = null;
+        $('#name').on('input', e => {
+            clearTimeout(timer);
+            timer = setTimeout(() => $(e.target.form).submit(), 500);
+        });
+
+        @*$(document).on('click', 'a', function () {
+            if ($('#name').val() != null) {
+                clearTimeout(timer);
+                timer = setTimeout(() => $("form").submit(), 500);
+            }
+
+
+        });*@
+
+
+            @*selectedItem = document.querySelector('#s');
+            selectedIndex = selectedItem.selectedIndex;
+            seletedValue = selectedItem[selectedIndex].value;
+
+
+            if (seletedValue == "ascBath") {
+
+                seletedValue = "dscBath";
+            }
+            if (seletedValue  == "ascBed") {
+                seletedValue  = "dscBed";
+            }
+            if (seletedValue == "ascPrice") {
+                alert(1);
+                seletedValue = "dscPrice";
+                console.log("selectedValue  " + seletedValue);
+
+            }
+            if (seletedValue  == "ascProp") {
+                seletedValue = "dscProp";
+            }*@
+
+
+
+            @*clearTimeout(timer);
+            timer = setTimeout(() => $("form").submit(), 500);*@
+
+            @*if (seletedValue  == "dscBath") {
+                seletedValue = "ascBath";
+            }
+            if (seletedValue == "dscBed") {
+                seletedValue = "ascBed";
+            }
+            if (seletedValue == "dscProp") {
+                seletedValue  = "ascProp";
+            }
+            if (seletedValue  == "dscPrice") {
+                seletedValue = "ascPrice";
+            }*@
+
+           
+
+        function highlight() {
+            let name = $('#name').val().trim();
+
+            if (!name) return;
+
+            let re = new RegExp(escapeRegExp(name), 'gi');
+
+            $('td:nth-child(2)').each((i, el) => {
+                let html = $(el).html().replace(re, '<mark>$&</mark>');
+                $(el).html(html);
+            });
+
+
+
+        }
+        $(document).on('click', '.viewDe', function (e) {
+            e.preventDefault();
+            let url = $(e.target).data('get');
+            location = url || location;
+        });</script>
+}

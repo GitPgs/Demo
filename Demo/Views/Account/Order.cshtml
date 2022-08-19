@@ -1,0 +1,200 @@
+﻿@model IPagedList<Booking>
+@using PagedList
+@using PagedList.Mvc
+
+
+@{ ViewBag.Title = "  ";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{ var options = PagedListRenderOptions.ClassicPlusFirstAndLast; @*by using this options variable and put into parameter of PageListPager() we can do some modify to build in template e.g. change text for TwistterBoostrap (change previous to back) *@ options.LinkToFirstPageFormat = "First";
+
+options.LinkToLastPageFormat = "Last";
+
+options.LinkToNextPageFormat = "Next";
+
+options.LinkToPreviousPageFormat = "Previous"; }
+
+@section head{
+    <style>
+
+        .pagination-container {
+            position: relative;
+            margin-left: 50%;
+        }
+        @*.img{
+            display:inline-block;
+        }*@
+
+        label{
+         font-size:200%;
+         font-weight:bold;
+        }
+        input{
+        margin-left:50px;
+        }
+
+        img {
+            position:absolute;
+            margin:3% 1% 1% 1%;
+
+
+        }
+        @*.table {
+            width: 100%;
+        }*@
+
+        .div{
+            position:relative;
+            left:30%;
+            top:-40%;
+        }
+
+        .big {
+            @*border: 1px double black;
+            width: 60%;*@
+            margin-left:20%;
+        }
+        .small {
+            border: 1px double black;
+            width:55vw;
+
+
+        }
+        .btn1 {
+            margin-left:25vw;
+            width:20%;
+            @*width: 38%;
+            border-radius:8%;*@
+        }
+        input#id {
+            margin-left: 65px;
+        }
+
+        input#name {
+            margin-left: 60px;
+        }
+
+        input#propertyName {
+            margin-left: 16px;
+        }
+
+        input#price {
+            margin-left: 130px;
+        }
+
+        .btn {
+
+            display: flex;
+            margin-left: 25vw;
+            align-items: end;
+            align-content: end;
+            flex-direction: row;
+
+        }
+
+
+        @*.paid{
+            margin-left:100%;
+
+
+        }
+
+        .unpaid {
+            margin-left: 180%;
+        }*@
+
+        #title{
+            margin-left:19.8vw;
+            height:8vh;
+            width:10vw;
+            border:1px double black;
+            font-weight:bolder;
+            font-size:150%;
+
+        }
+
+        input#status {
+            margin-left: 115px;
+        }
+    </style>
+
+}
+
+@*<div>
+        @ViewBag.date1
+        <br />
+        @ViewBag.mod
+        <br />
+        @ViewBag.data
+        <br />
+        @ViewBag.data2
+        <br />
+    </div>
+*@
+<br />
+<br />
+<br />
+<br />
+
+
+@Html.PagedListPager(Model, p => $"?page={p}", options)
+<div class="big">
+    @foreach (var v in Model)
+    {
+<div class="small">
+    <img src="~/Photo/@v.Property.PropImage" style="width:15vw;">
+
+    <div class="div">
+        <br />
+        <br />
+        <br />
+        @Html.Label("Booking ID :")
+        @Html.TextBox("id", v.id, new { disabled = "disabled" })
+        <br />
+
+        @Html.Label("Booking Date&Time :")
+        @Html.TextBox("date", v.bookingDatetime, new { disabled = "disabled" })
+        <br />
+        @Html.Label("User Name :")
+        @Html.TextBox("name", v.Student.Name, new { disabled = "disabled" })
+
+        <br />
+        @Html.Label("Property Name :")
+        @Html.TextBox("propertyName", v.Property.AdTitle, new { disabled = "disabled" })
+
+        <br />
+        @Html.Label("Price :")
+        @Html.TextBox("price", v.Property.Price, new { disabled = "disabled" })
+
+        <br />
+        @Html.Label("Status :")
+        @Html.TextBox("status", v.bookingStatus, new { disabled = "disabled" })
+
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
+        @if (v.bookingStatus == "paid")
+        {
+    <button data-get="/Account/Receipt/@v.id" class="btn1"> View Receipt </button> }
+else
+{
+    <div class="btn"><button data-get="/Account/CheckOut/@v.id" class="btn2">Pay💰 </button> <button data-post="/Account/Order/@v.id" class="btn3"> 🚮 </button></div>}
+
+
+
+
+
+        <br />
+    </div>
+</div>      }
+
+
+
+</div>
+
+
+@Html.PagedListPager(Model, p => $"?page={p}", options)

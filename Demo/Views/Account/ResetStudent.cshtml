@@ -1,0 +1,71 @@
+﻿@model ResetStudentVM
+
+@{
+    ViewBag.Title = "";
+}
+@section head {
+    <style>
+        main {
+            margin: 0;
+            background: url('/Images/hostel.jpg') no-repeat;
+            background-size: cover;
+        }
+
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+            background: #fff;
+            width: 500px;
+            height: 400px;
+            margin: auto;
+            background-color: #fff;
+            box-shadow: 20px 20px 50px grey;
+        }
+
+        .title {
+            margin: auto;
+            text-align: center;
+            color: #000000;
+            background-color: #fff;
+            width: 500px;
+        }
+
+
+        button {
+            display: inline-block;
+            padding: 5px 8px;
+            font-size: 20px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #000;
+            border: none;
+        }
+
+            button:hover {
+                background-color: #0009;
+            }
+    </style>
+}
+<h1 class="title">Reset Password</h1>
+<form class="form" method="post">
+    @Html.ValidationSummary(true)
+
+    @Html.LabelFor(m => m.StudentID)
+    @Html.TextBoxFor(m => m.StudentID, new { maxlength = 4, autofocus = "" })
+    @Html.ValidationMessageFor(m => m.StudentID)
+
+    @Html.LabelFor(m => m.Email)
+    @Html.TextBoxFor(m => m.Email, new { maxlength = 100 })
+    @Html.ValidationMessageFor(m => m.Email)
+
+    <section>
+        <button>Submit</button>
+        <button type="reset">Reset</button>
+    </section>
+</form>
+

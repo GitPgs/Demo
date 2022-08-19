@@ -1,0 +1,187 @@
+﻿@model  BookingVM
+
+
+
+@{ ViewBag.Title = "  ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    DateTime min = DateTime.Today;
+    var mi = min.AddDays(1).ToString("yyyy-MM-ddT00:00"); }
+
+@*2022-08-10T00:00*@
+<!--var ao = new AjaxOptions
+{
+    //Url ="/Home/Demmo1,
+    HttpMethod = "get",
+    //previous httpmethod been comment bcs the ajax hyperlink bydefault method is get and we want get the ajaxrequest to send to server so no need write httpMethod for ajax link
+    //but for ajax form default httpmethod is post , but we now want to get ajax request from client so we need change it to post so need write httpmethod = "get"
+    UpdateTargetId = "ajaxArea",
+    LoadingElementId = "loader",-->
+@* this OnSuccess means when result or process is success to perform without error will call function which call "highlight" *@
+<!--}; }-->
+
+
+@section head{
+
+    <style>
+
+        section {
+            display: flex;
+            flex-direction: row;
+            width: 80%;
+        }
+
+        .form {
+            margin: auto;
+            border: 3px solid black;
+        }
+
+        nav a:hover {
+            border: 1px solid red;
+        }
+
+        .Bookform {
+            background-color: white;
+            margin: auto;
+            border: 3px solid black;
+            display: grid;
+            grid-template-rows: auto auto auto;
+            grid-template-columns: 20vw;
+            gap: 5px;
+            width: 25%;
+            padding-left: 2%;
+            padding-top: 0.5%;
+            padding-bottom: 5%;
+        }
+
+            .Bookform > label {
+                font-weight: bold;
+            }
+
+            .Bookform > section,
+            .validation-summary-valid,
+            .validation-summary-errors {
+            }
+    </style>
+
+}
+
+
+<form method="post" class="Bookform">
+
+    @ViewBag.datetime
+    @*@using (Ajax.BeginForm(ao))
+        {*@
+    @Html.ValidationSummary(true)
+
+    @*@<div>@ViewBag.propName</div>@*@
+    <center><img src="~/Photo/@ViewBag.propImageURL" alt="what image shows" height="120" width="100"></center>
+
+
+    @Html.LabelFor(m => m.propName)
+    @Html.TextBoxFor(m => m.propName, new { @Value = ViewBag.propName, @disabled = "disabled" })
+
+    @*@Html.LabelFor(m => m.propId)
+        @Html.TextBoxFor(m => m.propId, null, new { id = "d", @Value = ViewBag.propId })*@
+
+    @Html.HiddenFor(m => m.propId, new { @Value = ViewBag.propId })
+
+
+    @*@Html.LabelFor(m => m.propName)
+        @Html.TextBoxFor(m => m.propName, a, new { disabled = "disabled" })*@
+
+
+
+    @Html.LabelFor(m => m.Name)
+    @Html.TextBoxFor(m => m.Name, null, new { disabled = "disabled" })
+    @*@@Html.ValidationMessageFor(m => m.Name)@*@
+    @*@<div>@Model.Name</div>@*@
+    @*@@Html.Hidden("Name",Model)@@*@
+
+
+
+
+
+    @Html.LabelFor(m => m.ContactNo)
+    @Html.TextBoxFor(m => m.ContactNo, null, new { disabled = "disabled" })
+    @*@@Html.ValidationMessageFor(m => m.ContactNo)@@*@
+
+
+
+
+
+    @Html.LabelFor(m => m.Date, htmlAttributes: new { @class = "" })
+    @Html.TextBoxFor(m => m.Date, new { @type = "datetime-local", @class = "form-control datepicker", @min = mi })
+    @Html.ValidationMessageFor(m => m.Date, "", new { @class = "text-danger" })
+
+
+    @*// date need after today*@
+
+
+    <section>
+        <button style="">Confirm Appoinments ➡️</button>
+        <button type="reset">Reset 🔃</button>
+    </section>
+
+
+
+</form>
+
+
+
+
+
+@*<div id="ajaxArea">
+
+
+
+        @if (ViewBag.page == "card")
+        {
+
+
+            var card = new PaymentVM
+            {
+                PropertyName = ViewBag.propName,
+                Total = ViewBag.price
+            };
+
+    @Html.Partial("_2", card) }
+
+
+
+                else if (ViewBag.page == "")
+                {
+    @Html.Partial("_BookingWizard") }
+                else
+                {
+    @Html.Partial("_2")
+
+        }
+
+
+
+
+
+
+    </div>*@
+
+
+
+@section foot{
+
+
+
+    <script>
+        $('#d').on('input', e => {
+            console.log("ss");
+            console.log($('#d').val());
+            if ($('#d').val() !=@ViewBag.propId) {
+                $('#d').val(@ViewBag.propId);
+
+            }
+
+        });
+
+
+
+    </script>
+}

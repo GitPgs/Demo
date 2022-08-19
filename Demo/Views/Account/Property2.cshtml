@@ -1,0 +1,289 @@
+﻿@model Property
+
+@section head {
+    <style>
+
+        #owner {
+            margin-left: -30%;
+        }
+
+        .form {
+           padding:10px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            width:400px;
+            height:700px;
+            background:#999;
+        }
+
+        #text {
+            width: 450px;
+        }
+
+        #chatBox {
+            margin-left:30%;
+        }
+
+        #chat {
+            background: #ccc;
+            width: 500px;
+            height: 450px;
+            margin-top: 5px;
+            padding: 5px;
+            overflow-y: scroll;
+            /* TODO */
+            display: grid;
+            place-content: start;
+            place-items: start;
+            gap: 5px;
+        }
+
+            #chat > div {
+                background: #fff;
+                border: 1px solid #999;
+                border-radius: 5px;
+                padding: 5px;
+                word-break: break-all;
+            }
+
+                #chat > div.me {
+                    background: lightgreen;
+                }
+
+                #chat > div.student {
+                    background: grey;
+                }
+
+                #chat > div.owner {
+                    background: grey;
+                }
+    </style>
+}
+
+<form method="post" class="form">
+
+    <img src="~/Photo/@Model.PropImage" style="width:250px;height:250px;"><br>
+    <b>Rent RM @Model.Price </b><br>
+    @Model.AdTitle<br>
+    <b>Property Details</b>
+    Property Type: @Model.Category<br>
+    Property Description: @Model.PropDescription <br>
+
+    Property Location: @Model.Location<br>
+    Built-up Size: @Model.PropSize  sq.ft.<br>
+    Floor Range: @Model.FloorRange<br>
+
+
+    Furnishing:@Model.Furnishings <br>
+    🛌 @Model.Bedroom
+    🛀 @Model.Bathroom &nbsp;&nbsp;&nbsp;
+    <br />
+
+    <a href="#" id="owner" onclick="showChat()"> Owner Name : @Model.Owner.Name</a>
+
+    <br />
+
+    @if (ViewBag.Role == "Student")
+    {<button data-get="/Account/Booking/@ViewBag.propId"> 👉Book👈 </button>}
+
+</form>
+<br />
+<div id="chatBox" hidden>
+    @if (ViewBag.Role == "Student")
+    {<form>
+            <input id="text" name="text" autofocus autocomplete="off">
+
+
+
+            <input id="username" value=@ViewBag.connect hidden>
+            <button id="btn1">Send</button>
+        </form>}
+
+    <div id="chat"></div>
+
+
+</div>
+
+<br />
+
+
+@section foot {
+    <!-- TODO -->
+    <script src="~/Scripts/jquery.signalR-2.4.3.js"></script>
+    <script src="~/signalR/js"></script>
+    <script>
+
+        function showChat() {
+            $("#chatBox").removeAttr('hidden');
+            if ("@ViewBag.Role" == "Student") {
+                proxy.server.getHistory("@ViewBag.other", "@ViewBag.connect");
+            }
+            else {
+                proxy.server.getHistory("@ViewBag.connect","");
+            }
+
+        }
+        // Proxy
+        const proxy = $.connection.chatHub;
+
+
+
+
+        proxy.client = {
+
+
+
+
+
+
+            receiveText(connectionid,name,text, cls = '') {
+
+                if ("@ViewBag.Role" == "Student" && connectionid == "@ViewBag.connect") {
+
+
+
+                    $('#chat').prepend(`<div class="${cls}"><b>${name}:</b>
+
+    ${text}</div>`);
+                }
+                if (connectionid == "@ViewBag.connect" && "@ViewBag.Role" == "Owner" ) {
+                    //seller
+
+
+                        $('#chat').prepend(`<div class="${cls}"><a href="#" onclick="send('${connectionid}','${name}','${text}')" >${name}:</a>
+
+    ${text}</div>`);
+
+
+
+
+
+                }
+
+
+                    //seller  can click and send private message
+
+                    if (name == "@ViewBag.connect" ) {
+                        $('#chat').prepend(`<div class="${cls}"><b>${name}:</b>
+
+    ${text}</div>`);
+                    }
+
+
+
+
+
+
+
+            },
+
+            receiveHistory(connectionid, name, message, roles = '') {
+
+
+                if ("@ViewBag.connect" == "@ViewBag.other") {
+
+                    if (roles == "student") {
+
+
+                        $('#chat').prepend(`<div class="${roles}"><a href="#" onclick="send('${connectionid}','${name}','${message}')" >${name}:</a>
+
+    ${message}</div>`);
+
+
+
+                    }
+                    else {
+
+
+
+                        $('#chat').prepend(`<div class="${roles}" ><b>${name}:</b>
+
+    ${message}</div>`);
+                    }
+
+
+                }
+                if ("@ViewBag.connect"!="@ViewBag.other") {
+
+
+
+                    $('#chat').prepend(`<div class="${roles}"><b>${name}:</b>
+${ message }</div >`);
+
+                }
+
+
+            },
+            initialize(list) {
+
+
+                for (let { name, connectionid, text } of list) {
+
+
+
+
+
+                    }
+
+                }
+
+        };
+
+        // Connection
+        $.connection.hub.start().then(main);
+
+        function main() {
+
+            if ("@ViewBag.Role" == "Student") { var connectionid = "@ViewBag.other";// receiver
+            $('form').submit(e => {
+                e.preventDefault();
+
+                $('#chat').scrollTop(0);
+                name = "@ViewBag.connect"
+                let text = $('#text').val().trim();
+
+           //only student can be send normally  (check role)
+                if (text) {
+                    proxy.server.getHistory(connectionid, name);
+
+                    proxy.server.sendText(connectionid,name, text);
+                }
+                $('#text').val('').focus();
+            });}
+
+        }
+
+        function send(connectionid, name, text) {
+
+
+
+
+                var receiver = name;
+                var sender = connectionid;
+
+                text = prompt("Please enter your text ", "text");
+
+
+
+
+
+
+
+                //only student can be send normally  (check role)
+
+
+
+
+            connectionid = name
+            proxy.server.getHistory(receiver, sender);
+                proxy.server.sendText(receiver, sender, text);
+
+
+
+
+
+
+        }
+    </script>
+}

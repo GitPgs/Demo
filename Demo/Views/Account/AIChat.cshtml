@@ -1,0 +1,100 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+
+
+@section  head{
+    <style>
+        #chat1 {
+        background: #ccc;
+        width: 500px;
+        height: 450px;
+        margin-top: 5px;
+        padding: 5px;
+        overflow-y: scroll;
+        /* TODO */
+        display: grid;
+        place-content: start;
+        place-items: start;
+        gap: 5px;
+        }
+
+        #chat1 > div {
+        background: #fff;
+        border: 1px solid #999;
+        border-radius: 5px;
+        padding: 5px;
+        word-break: break-all;
+        }
+
+        #chat1 > div.asker{
+            background: lightgreen;
+        }
+
+    </style>
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AIChat</title>
+ 
+
+
+</head>
+<body>
+    <button id="startAI">Start AI Chat  ....</button>
+    <div id="all" hidden>
+    @if (User.IsInRole("Admin"))
+    {
+
+        var Role = "Admin";
+        <div id="aichatE3" >
+            <div id="chat1"></div>
+            <div id="drop"></div>
+            @Html.TextArea("Chat", new { id = "chat"});
+            <Button id="aichat" value="@Role">Search</Button>
+            </div>
+            }
+
+            @if (User.IsInRole("Student"))
+            {
+                var Role = "Student";
+                <div id="aichatE1" >
+                    <div id="chat1"></div>
+                    <div id="drop"></div>
+                    @Html.TextArea("Chat", new { id = "chat" });
+                    <Button id="aichat" value="@Role">Search</Button>
+                </div>
+            }
+
+            @if (User.IsInRole("Owner"))
+            {
+                var Role = "Owner";
+                <div id="aichatE2" >
+                    <div id="chat1"></div>
+                    <div id="drop"></div>
+                    @Html.TextArea("Chat", new { id = "chat" });
+                    <Button id="aichat" value="@Role">Search</Button>
+                </div>
+            }
+
+        </div>
+    </body>
+</html>
+
+@section foot{
+    <script>
+
+        window.addEventListener('load',hide)
+
+        function hide() {
+            $("#aichatEl").hide();
+            $("#aichatE2").hide();
+            $("#aichatE3").hide()
+        }
+    </script>
+}

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<User>
+
+@{
+    ViewBag.Title = "Student Records";
+
+    // TODO: AJAX option
+    var ao = new AjaxOptions
+    {
+        // Url = "/Home/Demo2",
+        @*// HttpMethod = "get",*@
+        UpdateTargetId = "target",
+        LoadingElementId = "loader",
+        OnSuccess = "highlight"
+    };
+}
+@section head {
+    <style>
+        
+        .table{
+            margin-left:10%;
+            width:70%;
+
+        }
+        .img3 {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #333;
+            object-fit: cover;
+            position: absolute;
+            top: 50%;
+            left: calc(100% + 10px);
+            transform: translate(0, -50%);
+            display: none;
+        }
+
+        tr:hover .img3 {
+            display: block;
+        }
+        form {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+            form input {
+                width: 450px;
+                height: 50px;
+            }
+    </style>
+}
+<!-- TODO: AJAX form -->
+@using (Ajax.BeginForm(ao))
+{
+    @Html.TextBox("name", null, new { autofocus = "", type = "search", autocomplete = "off" })
+
+    @*<img src="~/Images/loader.gif" id="loader" style="display: none">*@
+}
+
+<!-- TODO: Wrap content -->
+<div id="target">
+    @Html.Partial("_B")
+</div>
+
+<!-- TODO: JavaScript -->
+@section foot {
+    <script>
+        let timer = null;
+        $('#name').on('input', e => {
+            clearTimeout(timer);
+            timer = setTimeout(() => $(e.target.form).submit(), 500);
+        });
+
+        function highlight() {
+            let name = $('#name').val().trim();
+
+            if (!name) return;
+
+            let re = new RegExp(escapeRegExp(name), 'gi');
+
+            $('td:nth-child(2)').each((i, el) => {
+                let html = $(el).html().replace(re, '<mark>$&</mark>');
+                $(el).html(html);
+            });
+        }
+    </script>
+}

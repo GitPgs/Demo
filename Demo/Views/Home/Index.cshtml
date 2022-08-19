@@ -1,0 +1,99 @@
+﻿@section head{
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .menu {
+            float: left;
+            width: 20%;
+        }
+
+        .menuitem {
+            padding: 8px;
+            margin-top: 7px;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .main {
+            float: left;
+            width: 60%;
+            overflow: hidden;
+        }
+
+        .ri {
+            background-color: lightblue;
+            float: left;
+            width: 20%;
+            padding: 10px 15px;
+            margin-top: 7px;
+        }
+
+        .image {
+            background-size: contain;
+            width: 100%;
+        }
+        .mySlides {
+            display: none;
+        }
+    </style>
+}
+<div class="image">
+    <img src="~/Images/a.png">
+</div>
+
+<div style="overflow:auto">
+    <div class="menu">
+        <div class="menuitem">Promotion</div>
+        <div class="menuitem">Booking</div>
+        <div class="menuitem">History</div>
+        <div class="menuitem">View all property</div>
+    </div>
+
+    <div class="main">
+        @*<h2>The Walk</h2>
+            <p>The walk from Monterosso to Riomaggiore will take you approximately two hours, give or take an hour depending on the weather conditions and your physical shape.</p>
+            <img src="~/Images/image3.jpg" style="width:100%">*@
+        <div class="w3-content w3-display-container">
+            <img class="mySlides" src="~/Images/image3.jpg" style="width:100%">
+            <img class="mySlides" src="~/Images/image2.jpg" style="width:100%">
+            <img class="mySlides" src="~/Images/image1.jpg" style="width:100%">
+
+            <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+            <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+        </div>
+    </div>
+
+    <div class="ri">
+        <h2>About TAR UC</h2>
+        <p>
+            Tunku Abdul Rahman University College (‘TAR UC’) was established in 1969 as TAR College with the focus of providing tertiary education opportunities for young Malaysians regardless of race, class and creed who were seeking quality education as well as meeting the rising demand for human capital from businesses and industries.
+            <br> The College started with a single campus in Setapak, Kuala Lumpur which is now the Main Campus.
+            <br>Subsequently, five branch campuses were established in Penang, Perak, Johor, Pahang and Sabah.
+        </p>
+    </div>
+</div>
+
+@section foot{
+<script>
+    var slideIndex = 1;
+    showDivs(slideIndex);
+
+    function plusDivs(n) {
+        showDivs(slideIndex += n);
+    }
+
+    function showDivs(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        if (n > x.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = x.length }
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        x[slideIndex - 1].style.display = "block";
+    }
+</script>
+
+}
+

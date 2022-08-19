@@ -1,0 +1,243 @@
+﻿@model PropertyVM
+
+@{
+    ViewBag.Title = "";
+}
+@section head{
+
+    <style>
+
+
+        main {
+            margin: 0;
+            background: url('/Images/hostel.jpg') no-repeat;
+            background-size: cover;
+        }
+
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+            background: #fff;
+            width: 800px;
+            height: 1600px;
+            margin: auto;
+            background-color: #fff;
+            box-shadow: 20px 20px 50px grey;
+        }
+
+       
+
+        button {
+            display: inline-block;
+            padding: 5px 8px;
+            font-size: 20px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #000;
+            border: none;
+        }
+
+            button:hover {
+                background-color: #0009;
+            }
+
+        .but {
+            text-align: center;
+            width: 189px;
+        }
+       
+      textarea{
+
+      }
+           
+    </style>
+
+}
+
+
+<form class="form" method="post" enctype="multipart/form-data">
+    <h1 class="title">Post New Property</h1>
+
+    @Html.LabelFor(m => m.Category)
+    @Html.DropDownListFor(m => m.Category, new List<SelectListItem>
+{
+              new SelectListItem { Text = "Condominium", Value = "Condominium", Selected=true},
+              new SelectListItem { Text = "Apartment", Value = "Apartment"},
+              new SelectListItem { Text = "Terrace", Value = "Terrace"}
+        }, "Select Category")
+
+    <br />
+
+
+
+    @Html.LabelFor(m => m.Photo2, "Property Image")
+    <div>
+        <label class="upload">
+            <small>Select photo...</small>
+            @Html.TextBoxFor(m => m.Photo2, new { type = "file", accept = "image/jpeg,image/png", hidden = "" })
+            <img src="~/Images/pho.png" style="border-radius:0">
+        </label>
+    </div>
+
+
+    @Html.LabelFor(m => m.Location)
+    @Html.TextAreaFor(m => m.Location)
+    @Html.ValidationMessageFor(m => m.Location)
+
+    <br />
+    @Html.LabelFor(m => m.FloorRange)
+    @Html.DropDownListFor(m => m.FloorRange, new List<SelectListItem>
+{
+              new SelectListItem { Text = "1-10", Value = "1-10", Selected=true},
+              new SelectListItem { Text = "11-20", Value = "11-20"},
+              new SelectListItem { Text = "21-25", Value = "21-25"},
+              new SelectListItem { Text = "21-25", Value = "26-30"}
+
+        }, "Select Floor Range")
+
+
+
+    <br />
+
+
+    @Html.LabelFor(m => m.Bedroom)
+    @Html.DropDownListFor(m => m.Bedroom, new List<SelectListItem>
+{
+                      new SelectListItem { Text = "1", Value = "1", Selected=true},
+                      new SelectListItem { Text = "2", Value = "2"},
+                      new SelectListItem { Text = "3", Value = "3"},
+                      new SelectListItem { Text = "4", Value = "4"},
+                      new SelectListItem { Text = "5", Value = "5"}
+
+
+                }, "Number of Bedroom")
+    <br>
+
+    @Html.LabelFor(m => m.Bathroom)
+    @Html.DropDownListFor(m => m.Bathroom, new List<SelectListItem>
+{
+                  new SelectListItem { Text = "1", Value = "1", Selected=true},
+                  new SelectListItem { Text = "2", Value = "2"},
+                  new SelectListItem { Text = "3", Value = "3"},
+                  new SelectListItem { Text = "4", Value = "4"},
+                  new SelectListItem { Text = "5", Value = "5"}
+
+
+            }, "Number of Bathroom")
+    <br>
+
+
+    @Html.LabelFor(m => m.PropSize,"PropSize (sq.ft.)")
+    @Html.DropDownListFor(m => m.PropSize, new List<SelectListItem>
+{
+                  new SelectListItem { Text = "1000", Value = "1000", Selected=true},
+                  new SelectListItem { Text = "2000", Value = "2000"},
+                  new SelectListItem { Text = "3000", Value = "3000"},
+                  new SelectListItem { Text = "4000", Value = "4000"},
+                  new SelectListItem { Text = "5000", Value = "5000"}
+
+
+            }, "Number of Bathroom")
+    <br>
+
+    @Html.LabelFor(m => m.Furnishings)
+    @Html.DropDownListFor(m => m.Furnishings, new List<SelectListItem>
+        {
+              new SelectListItem { Text = "Fully Furnished", Value = "Fully Furnished", Selected=true},
+              new SelectListItem { Text = "Not furnished", Value = "Not furnished"},
+              new SelectListItem { Text = "Partial furnished", Value = "Partial furnished"}
+
+
+        }, "Furnishings")
+    <br>
+
+    @Html.LabelFor(m => m.AdTitle)
+    @Html.TextBoxFor(m => m.AdTitle, new { maxlength = 50 })
+    <br>
+    @Html.LabelFor(m => m.PropDescription)
+    @Html.TextAreaFor(m => m.PropDescription, new { maxlength = 100 })
+
+    <br>
+    @Html.LabelFor(m => m.Price,"Price (RM)")
+    @Html.TextBoxFor(m => m.Price)
+    <br>
+
+    @Html.LabelFor(m => m.Facilities)
+    @Html.DropDownListFor(m => m.Facilities, new List<SelectListItem>
+        {
+              new SelectListItem { Text = "SwimmingPool", Value = "SwimmingPool", Selected=true},
+              new SelectListItem { Text = "Gymnasium", Value = "Gymnasium"},
+              new SelectListItem { Text = "TennisCourt", Value = "TennisCourt"},
+              new SelectListItem { Text = "Playground", Value = "Playground"},
+              new SelectListItem { Text = "JoggingTrack", Value = "JoggingTrack"},
+              new SelectListItem { Text = "SquashCourt", Value = "SquashCourt"}
+
+
+        }, "Facilities")
+    <br>
+    @Html.LabelFor(m => m.Conveniences)
+    @Html.DropDownListFor(m => m.Conveniences, new List<SelectListItem>
+        {
+              new SelectListItem { Text = "Air-Cond", Value = "Air-Cond", Selected=true},
+              new SelectListItem { Text = "CookingAllowed", Value = "CookingAllowed"},
+              new SelectListItem { Text = "Near KTM/LRT", Value = "Near KTM/LRT"},
+              new SelectListItem { Text = "WashingMachine", Value = "WashingMachine"},
+              new SelectListItem { Text = "Internet", Value = "Internet"},
+              new SelectListItem { Text = "SquashCourt", Value = "SquashCourt"}
+
+
+        }, "Conveniences")
+    <br>
+
+
+
+   
+
+    <br>
+    <section>
+        <button class="but">Post</button>
+    </section>
+</form>
+
+@section foot {
+    <script>
+        // Copy from demo W6B and W7A
+
+        $.validator.setDefaults({ ignore: '' });
+
+        function validatePhoto(f) {
+            let reType = /^image\/(jpeg|png)$/i;
+            let reName = /^.+\.(jpg|jpeg|png)$/i;
+
+            return f &&
+                f.size <= 1 * 1024 * 1024 &&
+                reType.test(f.type) &&
+                reName.test(f.name);
+        }
+
+        let src = null;
+
+        $('.upload input').change(e => {
+            let f = e.target.files[0];
+            let img = $(e.target).siblings('img')[0];
+
+            if (!src) src = img.src;
+
+            if (validatePhoto(f)) {
+                img.src = URL.createObjectURL(f);
+            }
+            else {
+                img.src = src;
+                e.target.value = '';
+            }
+
+            $(e.target).valid();
+        });
+    </script>
+}
+

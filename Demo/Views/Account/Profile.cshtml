@@ -1,0 +1,146 @@
+﻿@model ProfileVM
+
+@{
+    ViewBag.Title = "";
+}
+@section head {
+    <style>
+        main {
+            margin: 0;
+            background: url('/Images/hostel.jpg') no-repeat;
+            background-size: cover;
+        }
+
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+            background: #fff;
+            width: 500px;
+            height: 700px;
+            margin: auto;
+            background-color: #fff;
+            box-shadow: 20px 20px 50px grey;
+        }
+
+        .title {
+            margin: auto;
+            text-align: center;
+            color: #000000;
+            background-color: #fff;
+            width: 500px;
+        }
+
+
+        button {
+            display: inline-block;
+            padding: 5px 8px;
+            font-size: 20px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #000;
+            border: none;
+        }
+
+            button:hover {
+                background-color: #0009;
+            }
+
+        .text {
+            text-align: center;
+        }
+
+        input {
+            border-radius: 10px;
+            width: 306px;
+            height: 45px;
+            margin-bottom: 25px;
+        }
+
+        select {
+            width: 206px;
+            height: 45px;
+            border-radius: 10px;
+        }
+    </style>
+}
+<h1 class="title">Profile</h1>
+<form class="form" method="post" enctype="multipart/form-data">
+    @Html.ValidationSummary(true)
+
+    @Html.LabelFor(m => m.Photo)
+    <div>
+        <label class="upload">
+            <small>Select photo...</small>
+            @Html.TextBoxFor(m => m.Photo, new { type = "file", accept = "image/jpeg,image/png", hidden = "" })
+            <img src="~/Photo/@Model.PhotoURL">
+        </label>
+    </div>
+    @Html.ValidationMessageFor(m => m.Photo)
+
+    @Html.LabelFor(m => m.Name)
+    @Html.TextBoxFor(m => m.Name, new { maxlength = 100 })
+    @Html.ValidationMessageFor(m => m.Name)
+
+    @*@Html.LabelFor(m => m.Gender)
+    @Html.DropDownList("Gender", new List<SelectListItem>
+{
+    new SelectListItem { Text = "I am...", Value = "1", Selected=true},
+    new SelectListItem { Text = "Female", Value = "2"},
+    new SelectListItem { Text = "Male", Value = "3"}
+}, "Select Gender")*@
+
+    @Html.LabelFor(m => m.PhoneNumber)
+    @Html.TextBoxFor(m => m.PhoneNumber, new { maxlength = 11 })
+    @Html.ValidationMessageFor(m => m.PhoneNumber)
+
+    @Html.LabelFor(m => m.Email)
+    @Html.TextBoxFor(m => m.Email, new { maxlength = 100 })
+    @Html.ValidationMessageFor(m => m.Email)
+
+    @*<label for="birth"><b>Date of Birth</b><span> *</span></label>
+    <input type="date" name="birth" required>*@
+
+    <section>
+        <button>Update</button>
+        <button type="reset">Reset</button>
+    </section>
+</form>
+
+@section foot {
+    <script>
+        // Copy from demo W6B and W7A
+
+        function validatePhoto(f) {
+            let reType = /^image\/(jpeg|png)$/i;
+            let reName = /^.+\.(jpg|jpeg|png)$/i;
+
+            return f &&
+                f.size <= 1 * 1024 * 1024 &&
+                reType.test(f.type) &&
+                reName.test(f.name);
+        }
+
+        let src = null;
+
+        $('.upload input').change(e => {
+            let f = e.target.files[0];
+            let img = $(e.target).siblings('img')[0];
+
+            if (!src) src = img.src;
+
+            if (validatePhoto(f)) {
+                img.src = URL.createObjectURL(f);
+            }
+            else {
+                img.src = src;
+                e.target.value = '';
+            }
+        });
+    </script>
+}
+

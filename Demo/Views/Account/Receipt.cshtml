@@ -1,0 +1,78 @@
+﻿@model Booking
+@{ ViewBag.Title = "Receipt";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+@section head{
+
+    <style>
+        .table {
+            width: 40%;
+        }
+    </style>
+}
+
+
+@if (Model.PaymentId != null)
+{
+<div>
+
+
+
+
+
+
+
+    <table class="table">
+        <tr>
+            <th style="width:19%;">
+                Item
+            </th>
+            <th style="width: 20%; ">
+
+            </th>
+
+
+
+        </tr>
+        <tr>
+            <td>@Html.Label("Name")</td>
+            <td>  @Html.TextBox("Name", Model.Student.Name, new { disabled = "disabled" })</td>
+
+        </tr>
+        <tr>
+            <td>@Html.Label("PaymentDate")</td>
+
+            <td> @Html.TextBox("Name", Model.Payment.paymentDate, new { disabled = "disabled" })</td>
+
+        </tr>
+        <tr>
+            <td>@Html.Label("PropertyName")</td>
+            <td>@Html.TextBox("Name", Model.Property.AdTitle, new { disabled = "disabled" })</td>
+        </tr>
+        <tr>
+            <td> @Html.Label("PropertyFloor")</td>
+            <td> @Html.TextBox("Name", Model.Property.FloorRange, new { disabled = "disabled" })</td>
+        </tr>
+        <tr>
+            <td>@Html.Label("PropertySize")</td>
+            <td>@Html.TextBox("Name", Model.Property.PropSize, new { disabled = "disabled" })</td>
+        </tr>
+        <tr>
+            <td>@Html.Label("PropertyCondition")</td>
+            <td> @Html.TextBox("Name", Model.Property.Furnishings, new { disabled = "disabled" })</td>
+        </tr>
+
+        <tr>
+            <td>@Html.Label("PaymentAmount(RM)")</td>
+            <td style="text-align:left;">@Html.TextBox("price", Model.Payment.amount, new { disabled = "disabled" })</td>
+        </tr>
+    </table>
+
+
+    <br />
+    <br />
+    @*<table class="table">
+
+
+        </table>*@
+</div>}

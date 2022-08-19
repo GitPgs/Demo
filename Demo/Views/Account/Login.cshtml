@@ -1,0 +1,119 @@
+﻿@model LoginVM
+
+@{
+    ViewBag.Title = "";
+}
+@section head {
+    <style>
+        main {
+            margin: 0;
+            background: url('/Images/hostel.jpg') no-repeat;
+            background-size: cover;
+        }
+
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            padding-top:20px;
+            background: #fff;
+            width: 500px;
+            height: 400px;
+            margin: auto;
+            background-color: #fff;
+            box-shadow: 20px 20px 50px grey;
+        }
+
+        .title {
+            margin: auto;
+            text-align: center;
+            color: #000000;
+            background-color: #fff;
+            width: 500px;
+        }
+
+
+        button {
+            display: inline-block;
+            padding: 5px 8px;
+            font-size: 20px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #000;
+            border: none;
+        }
+
+            button:hover {
+                background-color: #0009;
+            }
+
+        .text {
+            text-align: center;
+        }
+
+        .but {
+            text-align: center;
+            width: 189px;
+        }
+
+        .remember a {
+            right: 50px;
+        }
+
+        .icon1 {
+            padding: 10px;
+            background-image: url('../../Images/user1.png');
+            background-repeat: no-repeat;
+            background-position: left;
+            border-radius: 10px;
+        }
+
+        .icon2 {
+            padding: 10px;
+            background-image: url('../../Images/padlock2.png');
+            background-repeat: no-repeat;
+            background-position: left;
+            border-radius: 10px;
+        }
+    </style>
+}
+<h1 class="title">Sign In</h1>
+<form class="form" method="post">
+    @Html.ValidationSummary(true)
+
+    @*@Html.LabelFor(m => m.Username)*@
+    <div>
+        @Html.TextBoxFor(m => m.Username, new { autofocus = "", @class = "icon1", placeholder = "Username", style = "Text-align:Center" })
+        @Html.ValidationMessageFor(m => m.Username)
+    </div>
+    @*@Html.LabelFor(m => m.Password)*@
+    <div>
+        @Html.PasswordFor(m => m.Password, new { @class = "icon2", placeholder = "Password", style = "Text-align:Center" })
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>
+
+    <div>
+        <label class="remember">
+            @Html.CheckBoxFor(m => m.RememberMe)Remember Me &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="/Account/Reset">Forget Password</a>
+        </label>
+    </div>
+    <br>
+
+    <section>
+        <button class="but">Sign In</button>
+
+        @*<button type="reset">Reset</button>*@
+    </section>
+    <p class="text">
+        Don't have an account?<a href="/Account/Register">Sign Up</a>
+
+    </p>
+
+</form>
+
+
+

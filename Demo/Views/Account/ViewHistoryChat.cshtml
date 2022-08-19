@@ -1,0 +1,123 @@
+﻿@model IEnumerable<Owner>
+
+@section head {
+    <style>
+        #seller {
+            width: 15%;
+            height: 50%;
+            overflow-y: auto;
+            display: inline-block;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+            #seller::-webkit-scrollbar {
+                display: none;
+            }
+
+        button {
+            width: 100%;
+            padding-bottom: 2%;
+            margin-bottom: 3%;
+        }
+
+        #history2 {
+            margin-left: 20%;
+            background: #ccc;
+            width: 500px;
+            height: 450px;
+            margin-top: -60px;
+            padding: 5px;
+            overflow-y: auto;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+            /* TODO */
+            display: grid;
+            place-content: start;
+            place-items: start;
+            gap: 5px;
+        }
+
+            #history2::-webkit-scrollbar {
+                display: none;
+            }
+
+            #history2 > div {
+                background: #fff;
+                border: 1px solid #999;
+                border-radius: 5px;
+                padding: 5px;
+                word-break: break-all;
+            }
+
+                #history2 > div.me {
+                    background: lightgreen;
+                }
+    </style>
+}
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ViewHistoryChat</title>
+</head>
+<body>
+
+
+    <div id="seller">
+
+        @foreach (var item in Model)
+        {
+                        <button onclick="Show('@item.Username')" value="@item.Username">@item.Username</button>
+                                        <br />}
+    </div>
+    <div id="history2"></div>
+
+</body>
+</html>
+@section foot {
+
+    <script src="~/Scripts/jquery.signalR-2.4.3.js"></script>
+    <script src="~/signalR/js"></script>
+    <script>
+
+        const proxy = $.connection.chatHub;
+        proxy.client = {
+
+
+
+
+
+
+            receiveAllHistory(connectionid, name, text, cls = '') {
+
+                $('#history2').prepend(`<div ><b>${name}:</b>
+
+        ${text}</div>`);
+            }
+        };
+
+        $.connection.hub.start().then(main);
+
+        function main() {
+
+            @*$('#btn1').click(e => {
+                e.preventDefault();
+
+
+            });*@
+
+        }
+
+        function Show(name) {
+            $("#history2").empty();
+
+            var connectionid =name;
+            proxy.server.getAllHistory(connectionid);
+        }
+    </script>
+}

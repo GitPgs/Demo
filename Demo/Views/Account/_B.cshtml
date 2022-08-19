@@ -1,0 +1,48 @@
+﻿
+@model IEnumerable<User>
+@using PagedList
+@using PagedList.Mvc
+@*@{ ViewBag.Title = "Student";
+    var po = PagedListRenderOptions.ClassicPlusFirstAndLast;
+    po.LinkToFirstPageFormat = "First";
+    po.LinkToLastPageFormat = "Last";
+    po.LinkToPreviousPageFormat = "Previous";
+    po.LinkToNextPageFormat = "Next";
+    // TODO: AJAX option
+    var ao = new AjaxOptions
+    {
+        @HttpMethod = "get",
+        @UpdateTargetId = "target",
+        @LoadingElementId = "loader",
+        @OnSuccess = "highlight"
+    }; }*@
+
+
+
+<table class="table">
+    <tr>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        @*<th></th>*@
+    </tr>
+    @foreach (var m in ViewBag.User)
+    {
+<tr>
+    <td>@m.Username</td>
+    <td>@m.Name</td>
+    <td>@m.Email</td>
+    <td>@m.Role</td>
+    <td style="position: relative">
+        @*<button data-get="/Student/Edit?username=@m.Username">Edit</button>
+        *@
+        @* TODO *@
+        @*<button data-post="/Account/Delete?username=@m.Username" style="width:80px">Delete</button>*@
+        <img class="img3"src="~/Photo/@m.PhotoURL">
+    </td>
+
+
+</tr>
+    }
+</table>
